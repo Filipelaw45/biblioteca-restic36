@@ -1,20 +1,3 @@
-# Biblioteca ResTIC36
-
-Este projeto é uma aplicação de biblioteca desenvolvida em Python, utilizando Class-Based Views (CBVs), Paginação, Busca e Ordenação. O objetivo é facilitar a gestão e consulta de livros, autores e categorias.
-
-## Funcionalidades
-
-- **Class-Based Views**: Estrutura modular e reutilizável para as views da aplicação.
-- **Paginação**: Navegação eficiente através de listas de livros, permitindo que os usuários visualizem um número limitado de itens por página.
-- **Busca**: Funcionalidade de busca para encontrar livros, autores ou categorias específicas.
-- **Ordenação**: Capacidade de ordenar os resultados com base em diferentes critérios, como título, autor e data de publicação.
-
-## Tecnologias Utilizadas
-
-- **Python**: Linguagem de programação principal.
-- **DRF**: Framework utilizado para desenvolvimento da API.
-- **SQLite**: Banco de dados utilizado para armazenamento de dados.
-
 ## Instalação
 
 1. Clone o repositório:
@@ -56,4 +39,16 @@ Este projeto é uma aplicação de biblioteca desenvolvida em Python, utilizando
   ```bash
   python manage.py runserver
   ```
+
+8. Logue com 'admin' senha 'admin123'
+
+9. Execute os testes:
+
+  ```bash
+  pytest core/tests/
+  ```
+
+10. Documentação em localhost:8000/redoc
+
+11. Swagger em localhost:8000/docs
 

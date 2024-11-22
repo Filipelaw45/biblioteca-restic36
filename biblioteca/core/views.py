@@ -1,9 +1,16 @@
 from rest_framework import viewsets, generics
-from .models import Livro, Categoria, Autor
-from .serializers import LivroSerializer, AutorSerializer, CategoriaSerializer
+from rest_framework.permissions import IsAuthenticated
+from .models import Livro, Categoria, Autor, Colecao
+from .serializers import (
+    LivroSerializer,
+    AutorSerializer,
+    CategoriaSerializer,
+    ColecaoSerializer,
+)
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from core.filters import LivroFilter
+from .custom_permissions import IsColecionadorOrReadOnly
 
 
 class ApiRoot(generics.GenericAPIView):
@@ -15,6 +22,7 @@ class ApiRoot(generics.GenericAPIView):
                 "livros": reverse("livro-list", request=request),
                 "autores": reverse("autor-list", request=request),
                 "categorias": reverse("categoria-list", request=request),
+                "colecoes": reverse("colecao-list", request=request),
             }
         )
 
@@ -64,3 +72,24 @@ class CategoriaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
     name = "categoria-detail"
+
+
+class ColecaoListCreate(generics.ListCreateAPIView):
+    queryset = Colecao.objects.all()
+    serializer_class = ColecaoSerializer
+    name = "colecao-list"
+    search_fields = ("^nome",)
+    ordering_fields = ("nome",)
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(colecionador=self.request.user)
+
+
+class ColecaoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Colecao.objects.all()
+    serializer_class = ColecaoSerializer
+    name = "colecao-detail"
+    search_fields = ("^nome",)
+    ordering_fields = ("nome",)
+    permission_classes = [IsColecionadorOrReadOnly]

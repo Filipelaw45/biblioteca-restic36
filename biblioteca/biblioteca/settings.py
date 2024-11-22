@@ -19,7 +19,15 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "core.apps.CoreConfig",
+    "drf_spectacular",
+    "rest_framework.authtoken",
 ]
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Biblioteca Restic36",
+    "DESCRIPTION": "API para gerenciar biblioteca.",
+    "VERSION": "1.0.0",
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -96,4 +104,13 @@ REST_FRAMEWORK = {
         "rest_framework.filters.OrderingFilter",
         "rest_framework.filters.SearchFilter",
     ),
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }

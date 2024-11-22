@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand
 from core.models import Categoria, Autor, Livro
+from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
 
 
 class Command(BaseCommand):
@@ -61,3 +63,37 @@ class Command(BaseCommand):
             categoria=categoria_ficcao,
             publicado_em="1818-01-01",
         )
+        usuarios = [
+            {
+                "username": "admin",
+                "email": "admin@example.com",
+                "password": "admin123",
+                "is_superuser": True,
+                "is_staff": True,
+            },
+            {
+                "username": "user1",
+                "email": "user1@example.com",
+                "password": "user1234",
+                "is_superuser": False,
+                "is_staff": False,
+            },
+            {
+                "username": "user2",
+                "email": "user2@example.com",
+                "password": "user5678",
+                "is_superuser": False,
+                "is_staff": False,
+            },
+        ]
+
+        for usuario in usuarios:
+            if not User.objects.filter(username=usuario["username"]).exists():
+                user = User.objects.create_user(
+                    username=usuario["username"],
+                    email=usuario["email"],
+                    password=usuario["password"],
+                )
+                user.is_superuser = usuario.get("is_superuser", False)
+                user.is_staff = usuario.get("is_staff", False)
+                user.save()
